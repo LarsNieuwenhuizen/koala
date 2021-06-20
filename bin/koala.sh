@@ -34,10 +34,22 @@ composeService() {
 
 menu(){
 echo -ne "
-$yellow=================================== KOALA ===================================$clear
-$(colorGreen '1)') Start Koala
-$(colorGreen '2)') Stop Koala
-$(colorGreen '3)') Restart Koala
+$yellow
+========================================================
+
+     ▄▄▄   ▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄     ▄▄▄▄▄▄▄
+    █   █ █ █       █       █   █   █       █
+    █   █▄█ █   ▄   █   ▄   █   █   █   ▄   █
+    █      ▄█  █ █  █  █▄█  █   █   █  █▄█  █
+    █     █▄█  █▄█  █       █   █▄▄▄█       █
+    █    ▄  █       █   ▄   █       █   ▄   █
+    █▄▄▄█ █▄█▄▄▄▄▄▄▄█▄▄█ █▄▄█▄▄▄▄▄▄▄█▄▄█ █▄▄█
+
+========================================================
+$clear
+$(colorGreen '1)') Start
+$(colorGreen '2)') Stop
+$(colorGreen '3)') Restart
 $(colorGreen '4)') Compose service
 $(colorGreen '0)') Exit
 $(colorBlue 'Choose an option:') "
@@ -51,5 +63,4 @@ $(colorBlue 'Choose an option:') "
 			*) echo -e $red"Wrong option."$clear; WrongCommand;;
         esac
 }
-
 menu
