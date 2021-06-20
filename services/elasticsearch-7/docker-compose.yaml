@@ -1,0 +1,57 @@
+---
+
+version: "3.7"
+
+networks:
+  koala:
+    external: true
+
+volumes:
+  searchIndexData7:
+    driver: local
+
+services:
+  elasticsearch7:
+    image: "docker.elastic.co/elasticsearch/elasticsearch:7.12.0"
+    networks:
+      koala:
+        aliases:
+          - elasticsearch7.services.docker
+    environment:
+      - http.port=${KOALA_ELASTICSEARCH7_PORT}
+      - discovery.type=single-node
+      - node.name=es-node1
+      - cluster.name=local-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms900m -Xmx900m"
+    ports:
+      - "${KOALA_ELASTICSEARCH7_PORT}:${KOALA_ELASTICSEARCH7_PORT}"
+    volumes:
+      - "searchIndexData7:/usr/share/elasticsearch/data"
+  kibana:
+    image: "docker.elastic.co/kibana/kibana:7.12.0"
+    networks:
+      koala:
+        aliases:
+          - kibana.elasticsearch7.services.docker
+    depends_on:
+      - elasticsearch7
+    ports:
+    - 5601:5601
+    environment:
+      ELASTICSEARCH_HOSTS: "http://${KOALA_ELASTICSEARCH7_HOST}:${KOALA_ELASTICSEARCH7_PORT}/"
+    labels:
+      - "traefik.enable=true"
+
+      # http => https redirect
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.koala-elasticsearch7-redirect.rule=Host(`kibana.elasticsearch7.${KOALA_LOCAL_TLD}`)"
+      - "traefik.http.routers.koala-elasticsearch7-redirect.entrypoints=web"
+      - "traefik.http.routers.koala-elasticsearch7-redirect.middlewares=redirect-to-https"
+
+      # https with ssl termination
+      - "traefik.http.routers.koala-elasticsearch7.rule=Host(`kibana.elasticsearch7.${KOALA_LOCAL_TLD}`)"
+      - "traefik.http.routers.koala-elasticsearch7.entrypoints=websecure"
+      - "traefik.http.routers.koala-elasticsearch7.tls=true"
+      - "traefik.http.routers.koala-elasticsearch7.service=koala-elasticsearch7"
+      - "traefik.http.services.koala-elasticsearch7.loadbalancer.server.port=5601"
