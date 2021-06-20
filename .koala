@@ -1,0 +1,23 @@
+export KOALA_CERTIFICATES_PATH=~/.koala/persistent/ssl/
+
+export KOALA_CONTAINER_GROUP=www-data
+export KOALA_CONTAINER_USER=www-data
+
+export KOALA_CONTEXT=Development/Docker
+export KOALA_HTTP_PORT=80
+export KOALA_HTTPS_PORT=443
+export KOALA_LOCAL_TLD=docker
+export KOALA_TRAEFIK_DASHBOARD_PORT=8000
+export KOALA_PHP_UPSTREAM=php:9000
+
+export KOALA_MARIADB103_HOST=mariadb103.services.docker
+export KOALA_MARIADB103_PORT=3308
+
+export KOALA_ELASTICSEARCH7_HOST=elasticsearch7.services.docker
+export KOALA_ELASTICSEARCH7_PORT=9202
+
+export KOALA_POSTGRES11_HOST=postgres11.services.docker
+export KOALA_POSTGRES11_PORT=5434
+
+export KOALA_REDIS_DEFAULT_HOST=redis
+export KOALA_REDIS_DEFAULT_PORT=6379
