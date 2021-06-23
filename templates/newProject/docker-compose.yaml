@@ -1,0 +1,71 @@
+---
+
+version: "3.7"
+
+networks:
+  koala:
+    external: true
+
+services:
+  webserver:
+    image: "larsnieuwenhuizen/nginx"
+    entrypoint: /bin/bash -c "envsubst '\$$COMPOSE_PROJECT_NAME \$$KOALA_CONTEXT \$$KOALA_CONTAINER_USER \$$KOALA_CONTAINER_GROUP \$$KOALA_LOCAL_TLD \$$KOALA_PHP \$$KOALA_PROJECT_DIR' < /nginx-template.conf > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+    environment:
+      COMPOSE_PROJECT_NAME: "${COMPOSE_PROJECT_NAME}"
+      KOALA_CERTIFICATES_PATH: "${KOALA_CERTIFICATES_PATH}"
+      KOALA_CONTEXT: "${KOALA_CONTEXT}"
+      KOALA_CONTAINER_USER: "${KOALA_CONTAINER_USER}"
+      KOALA_CONTAINER_GROUP: "${KOALA_CONTAINER_GROUP}"
+      KOALA_LOCAL_TLD: "${KOALA_LOCAL_TLD}"
+      KOALA_PHP: "${KOALA_PHP}"
+      KOALA_PROJECT_DIR: "${KOALA_PROJECT_DIR}"
+    networks:
+      koala:
+        aliases:
+          - "${COMPOSE_PROJECT_NAME}.${KOALA_LOCAL_TLD}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+
+      # http => https redirect
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-webserver-redirect.rule=Host(`${COMPOSE_PROJECT_NAME}.${KOALA_LOCAL_TLD}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-webserver-redirect.entrypoints=web"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-webserver-redirect.middlewares=redirect-to-https"
+
+      # ssl in passthrough mode (to leave compression and protocol to nginx container)
+      - "traefik.tcp.routers.${COMPOSE_PROJECT_NAME}-webserver.rule=HostSNI(`${COMPOSE_PROJECT_NAME}.${KOALA_LOCAL_TLD}`)"
+      - "traefik.tcp.routers.${COMPOSE_PROJECT_NAME}-webserver.entrypoints=websecure"
+      - "traefik.tcp.routers.${COMPOSE_PROJECT_NAME}-webserver.tls.passthrough=true"
+      - "traefik.tcp.routers.${COMPOSE_PROJECT_NAME}-webserver.service=${COMPOSE_PROJECT_NAME}-webserver"
+      - "traefik.tcp.services.${COMPOSE_PROJECT_NAME}-webserver.loadbalancer.server.port=443"
+    depends_on:
+      - php
+    volumes:
+      - "./Build/docker/nginx.conf:/nginx-template.conf"
+      - "./:$PWD"
+      - "${KOALA_CERTIFICATES_PATH}/certs/:/certs"
+      - "${KOALA_CERTIFICATES_PATH}/conf.d/:/certs.conf.d/"
+  php:
+    image: "larsnieuwenhuizen/php-fpm:8.0-dev"
+    entrypoint: '/opt/local/entrypoints/development/fpm.sh'
+    networks:
+      koala:
+        aliases:
+          - "php.${COMPOSE_PROJECT_NAME}.koala"
+    env_file:
+      - ./.env
+    environment:
+      LOCAL_USER_ID: "$LOCAL_USER_ID"
+      LOCAL_GROUP_ID: "$LOCAL_GROUP_ID"
+      SSH_AUTH_SOCK: "/ssh-agent"
+      PHP_IDE_CONFIG: "serverName=${COMPOSE_PROJECT_NAME}.${KOALA_LOCAL_TLD}"
+      COMPOSER_CACHE_DIR: "/var/cache/composer"
+    volumes:
+      - "$HOME/.composer:/var/cache/composer"
+      - "$SSH_AUTH_SOCK:/ssh-agent"
+      - "~/.ssh/known_hosts:/root/.ssh/known_hosts"
+      - "./Build/docker/php.ini:/etc/php/8.0/fpm/conf.d/9999-php.ini:ro"
+      - "./Build/docker/ssmtp.conf:/etc/ssmtp/ssmtp.conf:ro"
+      - "./Build/docker/mailcatcher.ini:/etc/php/8.0/conf.d/mailcatcher.ini:ro"
+      - "./:$PWD"
+    working_dir: "$PWD"
