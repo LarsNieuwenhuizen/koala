@@ -33,14 +33,11 @@ composeService() {
 }
 
 createProject() {
-    echo "Enter a project name:"
-    read name
-
     echo "Enter the domain to work on, it will become {{domain}}.docker :"
     read domain
 
-    cp -pr ~/.koala/templates/newProject ~/$name/
-    sed -i -e "s/{{projectName}}/$domain/g" ~/$name/.env.dist
+    cp -pr ~/.koala/templates/newProject ~/$domain/
+    sed -i -e "s/{{projectName}}/$domain/g" ~/$domain/.env.dist
 
     echo -ne "$blue
     Add these lines to your hosts file
@@ -53,10 +50,11 @@ createProject() {
     $clear
 "
 
-    echo "Project is created at ~/$name"
+    echo "Project is created at ~/$domain"
     echo "To start the project run the following commands:"
-    echo "cd ~/$name"
+    echo "cd ~/$domain"
     echo "bin/start-environment.sh"
+    echo "Head over to https://${domain}.docker/ in your browser"
     exit 0;
 }
 

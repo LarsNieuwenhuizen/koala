@@ -131,15 +131,15 @@ Also be sure to point "kibana.elasticsearch7.docker" to 127.0.0.1 and/or ::1.
 ::1         kibana.elasticsearch7.docker
 ```
 
-## Future of koala...
+## Create a new php/nginx project
 
-This setup was initially created inside of another project. 
-But it has grown, and I have found it very useful for development with docker.
-So I created this repo to make it available to others.
+If you want to create a project with a php & nginx container run:
 
-At this point in time the setup and documentation is limited purely to how to start Koala itself.
-The usefulness part comes when you apply it in your project with your containers.
+```bash
+koala
+```
 
-Upcoming features are:
-- Creating project setup with php & nginx containers
-- More documentation ;)
+- Choose option 5 - Create project
+- Choose a project name
+- Choose a domain name
+- Follow steps given in the out
