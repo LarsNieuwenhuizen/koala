@@ -140,6 +140,5 @@ koala
 ```
 
 - Choose option 5 - Create project
-- Choose a project name
 - Choose a domain name
 - Follow steps given in the out
