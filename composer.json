@@ -1,0 +1,22 @@
+{
+    "name": "larsnieuwenhuizen/koala",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "symfony/console": "^5.3",
+        "symfony/filesystem": "^5.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lars Nieuwenhuizen",
+            "email": "l.nieuwenhuizen@developers.nl"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "LarsNieuwenhuizen\\Koala\\": "src"
+        }
+    },
+    "minimum-stability": "stable"
+}
