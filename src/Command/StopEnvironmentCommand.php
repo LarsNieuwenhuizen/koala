@@ -23,7 +23,8 @@ final class StopEnvironmentCommand extends Command
 
         try {
             $io->section('Shutting down:');
-            \shell_exec('~/.koala/bin/stop-environment.sh');
+            \shell_exec('$HOME/.koala/bin/stop-environment.sh');
+            $io->newLine();
         } catch (\Exception $exception) {
             $io->error($exception->getMessage());
         }

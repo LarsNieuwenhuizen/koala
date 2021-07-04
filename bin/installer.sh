@@ -15,4 +15,11 @@ wget -qO koala-tmp.zip https://github.com/LarsNieuwenhuizen/koala/archive/refs/t
 unzip koala-tmp.zip
 mv koala-$version $HOME/.koala
 rm koala-tmp.zip
-cp $HOME/.koala/bin/koala.sh $HOME/.local/bin/koala
+
+if [ ! -d "$HOME/.local/koala/bin" ]; then
+    mkdir -p $HOME/.local/koala/bin
+    echo PATH=$HOME/.local/koala/bin:$PATH >> $HOME/.bashrc
+    source $HOME/.bashrc
+fi
+
+cp $HOME/.koala/bin/koala.php $HOME/.local/koala/bin/koala
