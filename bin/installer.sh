@@ -16,6 +16,18 @@ then
     exit 0
 fi
 
+if ! command -v php &> /dev/null
+then
+    echo "PHP is not installed"
+    exit 0
+fi
+
+if ! command -v docker &> /dev/null
+then
+    echo "Docker is not installed"
+    exit 0
+fi
+
 if [ -d $HOME/.koala ]; then
     echo "Koala is already installed, please use update"
     exit 0
