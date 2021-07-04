@@ -67,7 +67,11 @@ final class CreateProjectCommand extends Command
         );
 
         $fileContents = \file_get_contents($path . '/.env.dist');
-        $newFileContents = \str_replace('{{projectName}}', $directoryName, $fileContents);
+        $newFileContents = \str_replace(
+            '{{projectName}}',
+            $directoryName,
+            $fileContents
+        );
         \file_put_contents($path . '/.env.dist', $newFileContents);
     }
 }

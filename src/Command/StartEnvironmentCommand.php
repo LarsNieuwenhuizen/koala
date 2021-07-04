@@ -22,7 +22,7 @@ final class StartEnvironmentCommand extends Command
         $io = new SymfonyStyle($input, $output);
         try {
             $io->section('Starting containers:');
-            \shell_exec('~/.koala/bin/start-environment.sh');
+            \shell_exec('$HOME/.koala/bin/start-environment.sh');
             $io->newLine();
             $io->success('Koala is up and running!');
         } catch (\Exception $exception) {
