@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+ccccjejivkrbdknrtbjbhgbrthgvgvdteircrrcrhd
 
 green='\e[32m'
 blue='\e[34m'

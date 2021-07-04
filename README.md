@@ -6,6 +6,11 @@ This setup uses Traefik as a reverse proxy to serve as an entrypoint for your ap
 
 - [Traefik](https://traefik.io/traefik/)
 
+## Requirements
+- Docker
+- PHP7.4+
+- Composer
+
 ## How to install
 Run
 ```bash

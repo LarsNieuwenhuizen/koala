@@ -10,9 +10,9 @@ then
     exit 0
 fi
 
-cd ~
+cd $HOME
 wget -qO koala-tmp.zip https://github.com/LarsNieuwenhuizen/koala/archive/refs/tags/$version.zip
 unzip koala-tmp.zip
-mv koala-$version ~/.koala
+mv koala-$version $HOME/.koala
 rm koala-tmp.zip
-cp ~/.koala/bin/koala.sh ~/.local/bin/koala
+cp $HOME/.koala/bin/koala.sh $HOME/.local/bin/koala
