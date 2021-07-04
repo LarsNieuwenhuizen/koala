@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
-~/.koala/bin/docker-compose.sh -f ~/.koala/docker-compose.yaml stop
+$HOME/.koala/bin/docker-compose.sh -f $HOME/.koala/docker-compose.yaml stop
 
-docker stop $(docker network inspect koala --format='{{range $id, $_ := .Containers}}{{println $id}}{{end}}')
+containers=$(docker network inspect koala --format='{{range $id, $_ := .Containers}}{{println $id}}{{end}}')
+
+if [ -n "$containers" ]; then
+    docker stop $containers
+fi

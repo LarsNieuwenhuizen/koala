@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-source ~/.koala/.koala
-if [[ -f ~/.koala/.koala.local ]]; then
-    source ~/.koala/.koala.local
+source $HOME/.koala/.koala
+if [[ -f $HOME/.koala/.koala.local ]]; then
+    source $HOME/.koala/.koala.local
 fi
 
 hostnames=($@)

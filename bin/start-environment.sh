@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-~/.koala/bin/setup.sh
-~/.koala/bin/docker-compose.sh -f ~/.koala/docker-compose.yaml up -d
+$HOME/.koala/bin/setup.sh
+$HOME/.koala/bin/docker-compose.sh -f $HOME/.koala/docker-compose.yaml up -d
