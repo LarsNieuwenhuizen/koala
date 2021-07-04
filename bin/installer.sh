@@ -10,6 +10,17 @@ then
     exit 0
 fi
 
+if ! command -v composer &> /dev/null
+then
+    echo "Composer is not installed"
+    exit 0
+fi
+
+if [ -d $HOME/.koala ]; then
+    echo "Koala is already installed, please use update"
+    exit 0
+fi
+
 cd $HOME
 wget -qO koala-tmp.zip https://github.com/LarsNieuwenhuizen/koala/archive/refs/tags/$version.zip
 unzip koala-tmp.zip
