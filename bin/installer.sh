@@ -16,6 +16,9 @@ unzip koala-tmp.zip
 mv koala-$version $HOME/.koala
 rm koala-tmp.zip
 
+cd $HOME/.koala
+composer install -o --no-progress --no-interaction
+
 if [ ! -d "$HOME/.local/koala/bin" ]; then
     mkdir -p $HOME/.local/koala/bin
     echo PATH=$HOME/.local/koala/bin:$PATH >> $HOME/.bashrc
