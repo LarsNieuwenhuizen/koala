@@ -45,7 +45,6 @@ composer install -o --no-progress --no-interaction
 if [ ! -d "$HOME/.local/koala/bin" ]; then
     mkdir -p $HOME/.local/koala/bin
     echo PATH=$HOME/.local/koala/bin:$PATH >> $HOME/.bashrc
-    source $HOME/.bashrc
 fi
 
 cp $HOME/.koala/bin/koala.php $HOME/.local/koala/bin/koala
