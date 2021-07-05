@@ -3,6 +3,7 @@
 
 require_once $_SERVER['HOME'] . '/.koala/vendor/autoload.php';
 
+use LarsNieuwenhuizen\Koala\Command\ComposeServiceCommand;
 use LarsNieuwenhuizen\Koala\Command\CreateProjectCommand;
 use LarsNieuwenhuizen\Koala\Command\RestartEnvironmentCommand;
 use LarsNieuwenhuizen\Koala\Command\StartEnvironmentCommand;
@@ -34,7 +35,8 @@ $application->addCommands([
     new StartEnvironmentCommand(),
     new StopEnvironmentCommand(),
     new RestartEnvironmentCommand(),
-    new CreateProjectCommand()
+    new CreateProjectCommand(),
+    new ComposeServiceCommand()
 ]);
 
 $application->run();

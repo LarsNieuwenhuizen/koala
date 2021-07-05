@@ -38,13 +38,30 @@ You'll see this:
     █▄▄▄█ █▄█▄▄▄▄▄▄▄█▄▄█ █▄▄█▄▄▄▄▄▄▄█▄▄█ █▄▄█
 
 ========================================================
+        
+Console Tool
 
-1) Start
-2) Stop
-3) Restart
-4) Compose service
-0) Exit
-Choose an option: 
+Usage:
+  command [options] [arguments]
+
+Options:
+  -h, --help            Display help for the given command. When no command is given display help for the list command
+  -q, --quiet           Do not output any message
+  -V, --version         Display this application version
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+Available commands:
+  help             Display help for a command
+  list             List commands
+  restart          Re-start the Koala network
+  start            Start the Koala network
+  stop             Start the Koala network
+ compose
+  compose:service  Start other services
+ create
+  create:project   Create an empty php/nginx project running on the Koala network
 ```
 
 ## Starting Koala
@@ -141,9 +158,8 @@ Also be sure to point "kibana.elasticsearch7.docker" to 127.0.0.1 and/or ::1.
 If you want to create a project with a php & nginx container run:
 
 ```bash
-koala
+koala create:project
 ```
 
-- Choose option 5 - Create project
-- Choose a domain name
+- Enter a domain name
 - Follow steps given in the out
