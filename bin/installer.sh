@@ -36,7 +36,14 @@ fi
 cd $HOME
 wget -qO koala-tmp.zip https://github.com/LarsNieuwenhuizen/koala/archive/refs/tags/$version.zip
 unzip koala-tmp.zip
-mv koala-$version $HOME/.koala
+mv koala-$version $HOME/.koala-$version
+
+if [ -L $HOME/.koala ]; then
+    rm $HOME/.koala
+fi
+
+ln -s $HOME/.koala-$version .koala
+
 rm koala-tmp.zip
 
 cd $HOME/.koala
