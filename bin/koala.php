@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-require_once $_SERVER['HOME'] . '/.koala-dev/vendor/autoload.php';
+require_once $_SERVER['HOME'] . '/.koala/vendor/autoload.php';
 
 use LarsNieuwenhuizen\Koala\Command\ComposeServiceCommand;
 use LarsNieuwenhuizen\Koala\Command\CreateProjectCommand;
