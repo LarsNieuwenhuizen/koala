@@ -34,7 +34,7 @@ final class UpdateCommand extends Command
         $result = Command::SUCCESS;
         $installedVersion = \trim(
             \file_get_contents(
-                \getenv('HOME') . '/.koala-dev/version'
+                \getenv('HOME') . '/.koala/version'
             )
         );
 
