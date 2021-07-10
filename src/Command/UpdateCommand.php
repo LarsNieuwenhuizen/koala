@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace LarsNieuwenhuizen\Koala\Command;
 
+use LarsNieuwenhuizen\Koala\Exception\InstallUpdateException;
+use LarsNieuwenhuizen\Koala\Exception\SwitchSymlinkException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,6 +31,7 @@ final class UpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $result = Command::SUCCESS;
         $installedVersion = \trim(
             \file_get_contents(
                 \getenv('HOME') . '/.koala-dev/version'
@@ -50,7 +53,7 @@ final class UpdateCommand extends Command
         );
 
         $nextVersion = null;
-        foreach ($allRemoteTags as $key => $version) {
+        foreach ($allRemoteTags as $version) {
             if (\version_compare($installedVersion, $version, '<')) {
                 $nextVersion = $version;
                 break;
@@ -62,45 +65,77 @@ final class UpdateCommand extends Command
             return Command::SUCCESS;
         }
 
-
         $io->comment('Starting update...');
-        $this->installNewVersion($nextVersion, $io);
-        $this->switchSymlink($nextVersion, $io);
-//        $this->replaceConsole();
+        try {
+            $this->installNewVersion($nextVersion, $io);
+            $this->switchSymlink($nextVersion, $io);
+        } catch (InstallUpdateException $installUpdateException) {
+            $io->error($installUpdateException->getMessage());
+            $result = Command::FAILURE;
+        } catch (SwitchSymlinkException $switchSymlinkException) {
+            $io->error("Update failed: " . $switchSymlinkException->getMessage());
+            $result = Command::FAILURE;
+        }  catch (\Exception $exception) {
+            $io->error("Update failed: " . $exception->getMessage());
+            $result = Command::FAILURE;
+        } finally {
+            $this->cleanupResources($nextVersion, $io);
+        }
 
-        return Command::SUCCESS;
+        return $result;
     }
 
     private function installNewVersion(string $version, SymfonyStyle $io): void
     {
-
+        $home = \getenv('HOME');
         $io->comment('Check if directory does not already exists...');
         $existingDirectory = $this->filesystem->exists(getenv('HOME') . "/.koala-$version");
+
         if ($existingDirectory === true) {
             $io->error("The directory " . getenv('HOME') . "/.koala-$version already exists");
-            exit(1);
+            throw new InstallUpdateException('Version directory already exists');
         }
 
-        $io->comment('Downloading...');
-        \shell_exec(
-            "wget -qO koala-$version.zip https://github.com/LarsNieuwenhuizen/koala/archive/refs/tags/$version.zip"
-        );
+        try {
+            $io->comment('Downloading...');
+            \shell_exec(
+                "wget -qO koala-$version.zip https://github.com/LarsNieuwenhuizen/koala/archive/refs/tags/$version.zip"
+            );
 
-        $io->comment('Unpacking...');
-        \shell_exec(
-            "unzip koala-$version"
-        );
+            $io->comment('Unpacking...');
+            \shell_exec(
+                "unzip koala-$version"
+            );
 
-        $io->comment('Install new version...');
-        $this->filesystem->mirror("koala-$version", \getenv('HOME') . "/.koala-$version");
+            $io->comment('Install new version...');
+            $this->filesystem->mirror("koala-$version", \getenv('HOME') . "/.koala-$version");
 
+            $io->comment('Composer install');
+            \shell_exec("cd $home/.koala-$version && composer install --no-interaction -o -q --no-progress");
+        } catch (\Exception $exception) {
+            throw new InstallUpdateException($exception->getMessage());
+        }
+    }
+
+    private function cleanupResources(string $version, SymfonyStyle $io): void
+    {
         $io->comment('Cleaning up downloaded resources...');
         $this->filesystem->remove("koala-$version.zip");
         $this->filesystem->remove("koala-$version");
     }
 
-    private function switchSymlink(string $version, SymfonyStyle $io)
+    private function switchSymlink(string $version, SymfonyStyle $io): void
     {
-        $this->filesystem->symlink(getenv('HOME') . "/.koala");
+        try {
+            $io->comment('Switch symlink');
+            $home = \getenv('HOME');
+            $this->filesystem->remove("$home/.koala");
+            $this->filesystem->symlink(
+                "$home/.koala-$version",
+                "$home/.koala"
+            );
+        } catch (\Exception $exception) {
+            throw new SwitchSymlinkException();
+        }
     }
 }
