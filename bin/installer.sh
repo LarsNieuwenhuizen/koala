@@ -54,4 +54,4 @@ if [ ! -d "$HOME/.local/koala/bin" ]; then
     echo PATH=$HOME/.local/koala/bin:$PATH >> $HOME/.bashrc
 fi
 
-cp $HOME/.koala/bin/koala.php $HOME/.local/koala/bin/koala
+ln -s $HOME/.koala/bin/koala.php $HOME/.local/koala/bin/koala
