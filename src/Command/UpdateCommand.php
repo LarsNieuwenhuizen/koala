@@ -69,11 +69,8 @@ final class UpdateCommand extends Command
         try {
             $this->installNewVersion($nextVersion, $io);
             $this->switchSymlink($nextVersion, $io);
-        } catch (InstallUpdateException $installUpdateException) {
-            $io->error($installUpdateException->getMessage());
-            $result = Command::FAILURE;
-        } catch (SwitchSymlinkException $switchSymlinkException) {
-            $io->error("Update failed: " . $switchSymlinkException->getMessage());
+        } catch (InstallUpdateException | SwitchSymlinkException $exception) {
+            $io->error($exception->getMessage());
             $result = Command::FAILURE;
         }  catch (\Exception $exception) {
             $io->error("Update failed: " . $exception->getMessage());
