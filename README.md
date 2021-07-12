@@ -14,7 +14,7 @@ This setup uses Traefik as a reverse proxy to serve as an entrypoint for your ap
 ## How to install
 Run
 ```bash
-curl https://raw.githubusercontent.com/LarsNieuwenhuizen/koala/1.3.1/bin/installer.sh | bash
+curl https://raw.githubusercontent.com/LarsNieuwenhuizen/koala/1.3.2/bin/installer.sh | bash
 ```
 
 Koala is now installed and placed the koala console script in your local bin $PATH.
