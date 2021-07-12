@@ -79,6 +79,7 @@ final class UpdateCommand extends Command
             $this->cleanupResources($nextVersion, $io);
         }
 
+        $io->success('Update complete');
         return $result;
     }
 
