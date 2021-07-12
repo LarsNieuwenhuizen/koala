@@ -13,7 +13,7 @@ use Symfony\Component\Console\Application;
 
 class App extends Application
 {
-    public function getHelp()
+    public function getHelp(): string
     {
         return "<comment>
 ========================================================
