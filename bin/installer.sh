@@ -2,7 +2,7 @@
 
 set -eux
 
-version=1.3.2
+version=1.3.3
 
 if ! command -v unzip &> /dev/null
 then
