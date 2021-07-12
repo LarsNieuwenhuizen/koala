@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace LarsNieuwenhuizen\Koala\Command;
 
 use LarsNieuwenhuizen\Koala\Exception\InstallUpdateException;
+use LarsNieuwenhuizen\Koala\Exception\RemoveOldInstallationException;
 use LarsNieuwenhuizen\Koala\Exception\SwitchSymlinkException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -69,7 +70,8 @@ final class UpdateCommand extends Command
         try {
             $this->installNewVersion($nextVersion, $io);
             $this->switchSymlink($nextVersion, $io);
-        } catch (InstallUpdateException | SwitchSymlinkException $exception) {
+            $this->deletePreviousInstallation($installedVersion, $io);
+        } catch (InstallUpdateException | SwitchSymlinkException | RemoveOldInstallationException $exception) {
             $io->error($exception->getMessage());
             $result = Command::FAILURE;
         }  catch (\Exception $exception) {
@@ -134,6 +136,17 @@ final class UpdateCommand extends Command
             );
         } catch (\Exception $exception) {
             throw new SwitchSymlinkException();
+        }
+    }
+
+    private function deletePreviousInstallation(string $oldVersion, SymfonyStyle $io): void
+    {
+        try {
+            $home = \getenv('HOME');
+            $io->comment('Removing previous installation');
+            $this->filesystem->remove("$home/.koala-$oldVersion");
+        } catch (\Exception $exception) {
+            throw new RemoveOldInstallationException();
         }
     }
 }
