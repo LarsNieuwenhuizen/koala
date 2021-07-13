@@ -19,6 +19,8 @@ curl https://raw.githubusercontent.com/LarsNieuwenhuizen/koala/1.3.4/bin/install
 
 Koala is now installed and placed the koala console script in your local bin $PATH.
 
+Restart your terminal
+
 You can now run:
 ```bash
 koala
@@ -73,6 +75,10 @@ If you start, it will by default start:
 - Mailcatcher
 
 These are the base services created in the docker network "koala".
+
+**note**:
+You might be asked for your system user password the first time.
+This is the case if you need administrator privileges to create the root certificate authority for koala.
 
 ## SSL
 Certificates are generated for the services where you apply the configuration for it.
