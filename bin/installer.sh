@@ -54,9 +54,9 @@ if [ ! -d "$HOME/.local/koala/bin" ]; then
 fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    echo export PATH="$HOME/.local/koala/bin:$PATH" >> $HOME/.zshrc
+    echo export PATH="\"$HOME/.local/koala/bin:\$PATH\"" >> $HOME/.zshrc
 else
-    echo export PATH="$HOME/.local/koala/bin:$PATH" >> $HOME/.bashrc
+    echo export PATH="\"$HOME/.local/koala/bin:\$PATH\"" >> $HOME/.bashrc
 fi
 
 ln -s $HOME/.koala/bin/koala.php $HOME/.local/koala/bin/koala
