@@ -51,6 +51,11 @@ composer install -o --no-progress --no-interaction
 
 if [ ! -d "$HOME/.local/koala/bin" ]; then
     mkdir -p $HOME/.local/koala/bin
+fi
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    echo PATH=$HOME/.local/koala/bin:$PATH >> $HOME/.zshrc
+else
     echo PATH=$HOME/.local/koala/bin:$PATH >> $HOME/.bashrc
 fi
 
