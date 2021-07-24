@@ -31,7 +31,12 @@ class App extends Application
     }
 }
 
-$application = new App();
+
+$version = \trim(\file_get_contents(
+    \getenv('HOME') . DIRECTORY_SEPARATOR . '.koala' . DIRECTORY_SEPARATOR . 'version'
+));
+$application = new App('Koala', $version);
+
 $application->addCommands([
     new StartEnvironmentCommand(),
     new StopEnvironmentCommand(),
