@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace LarsNieuwenhuizen\Koala\Command;
 
+use LarsNieuwenhuizen\Koala\Exception\ContainerDetailsException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -40,7 +41,11 @@ class InspectCommand extends Command
 
             $rows = [];
             foreach ($containers as $container) {
-                $ports = $this->getContainerDetails($container->Name, $io)['ports'];
+                try {
+                    $ports = $this->getContainerDetails($container->Name)['ports'];
+                } catch (ContainerDetailsException $containerDetailsException) {
+                    continue;
+                }
                 $rows[] = [
                     $container->Name,
                     $ports
@@ -63,27 +68,30 @@ class InspectCommand extends Command
         }
     }
 
-    private function getContainerDetails(string $containerName, SymfonyStyle $io): array
+    /**
+     * @throws ContainerDetailsException
+     */
+    private function getContainerDetails(string $containerName): array
     {
         $containerDetails = \json_decode(
             \shell_exec('docker inspect ' . $containerName)
         );
 
         if (\array_key_exists(0, $containerDetails) === false) {
-            throw new \Exception('No details for the container');
+            throw new ContainerDetailsException('No details for the container');
         }
 
         $details = (array)$containerDetails[0];
 
         if (\array_key_exists('HostConfig', $details) === false) {
-            throw new \Exception('No host config for the container');
+            throw new ContainerDetailsException('No host config for the container');
         }
 
         $portBindings = (array)$details['HostConfig']->PortBindings;
 
         $ports = '';
         foreach ($portBindings as $containerPort => $details) {
-            $details = reset($details);
+            $details = \reset($details);
             $hostPort = $details->HostPort;
             $ports .= "$hostPort:$containerPort ";
         }
