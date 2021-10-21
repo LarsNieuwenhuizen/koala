@@ -15,7 +15,7 @@ volumes:
 services:
 
   traefik:
-    image: traefik:v2.4
+    image: traefik:v2.5
     container_name: koala-traefik
     networks:
       - koala
