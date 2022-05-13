@@ -1,4 +1,4 @@
-export KOALA_CERTIFICATES_PATH=~/.koala/persistent/ssl/
+export KOALA_CERTIFICATES_PATH=~/.koala-persistent/ssl/
 
 export KOALA_CONTAINER_GROUP=www-data
 export KOALA_CONTAINER_USER=www-data
