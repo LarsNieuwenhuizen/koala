@@ -89,7 +89,7 @@ A root certificate is generated to sign all other application certificates.
 So you can trust the root certificate and all other signed certificates will be valid by parent certificate.
 
 You can find the root certificate here:
-- ~/.koala/persistent/ssl/certs/_koala-ca-root-certificate.crt
+- ~/.koala-persistent/ssl/certs/_koala-ca-root-certificate.crt
 
 Simply trust it as CA in the browser or your machine globally.
 
@@ -142,7 +142,7 @@ See [The SSL section](#SSL) for more on that
 Aside from the basic containers that are created you can choose for the option "Compose service".
 
 This shows the extra services you can start.
-For now this is just Elasticsearch 7.12 & Kibana.
+For now this is just Elasticsearch 7.17 & Kibana.
 
 When you start this you'll have an elasticsearch node available on:
 - localhost:9202
