@@ -30,7 +30,3 @@ done
 if [ -f $HOME/.koala/services/${service}/init.sh ]; then
     $HOME/.koala/services/${service}/init.sh
 fi
-
-LOCAL_USER_ID=$(id -u) \
-    LOCAL_GROUP_ID=$(id -g) \
-    docker-compose -f $HOME/.koala/services/${service}/docker-compose.yaml "$@"
