@@ -13,6 +13,8 @@ volumes:
     driver: local
   koala-redis-7:
     driver: local
+  koala-mysql-8:
+    driver: local
 
 services:
 
@@ -80,7 +82,21 @@ services:
       - "./config/mariadb103/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf"
     ports:
       - "${KOALA_MARIADB103_PORT}:${KOALA_MARIADB103_PORT}"
-
+  mysql8:
+    image: mysql/mysql-server:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      koala:
+        aliases:
+          - mysql8.services.docker
+    volumes:
+      - "koala-mysql-8:/var/lib/mysql"
+      - "./config/mysql8/my.cnf:/etc/my.cnf"
+    healthcheck:
+      test: "/healthcheck.sh"
+    ports:
+      - "${KOALA_MYSQL8_PORT}:${KOALA_MYSQL8_PORT}"
   postgres11:
     image: "postgres:11-alpine"
     container_name: koala-postgres11

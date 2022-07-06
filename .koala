@@ -21,3 +21,6 @@ export KOALA_POSTGRES11_PORT=5434
 
 export KOALA_REDIS7_HOST=redis7.services.docker
 export KOALA_REDIS7_PORT=6379
+
+export KOALA_MYSQL8_PORT=3309
+export KOALA_MYSQL8_HOST=mysql8.services.docker
