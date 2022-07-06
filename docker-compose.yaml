@@ -84,8 +84,10 @@ services:
       - "${KOALA_MARIADB103_PORT}:${KOALA_MARIADB103_PORT}"
   mysql8:
     image: mysql/mysql-server:latest
+    container_name: koala-mysql8
     environment:
       MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_HOST: '%'
     networks:
       koala:
         aliases:
