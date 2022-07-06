@@ -13,6 +13,7 @@ volumes:
 services:
   elasticsearch7:
     image: "docker.elastic.co/elasticsearch/elasticsearch:7.17.3"
+    container_name: koala-elasticsearch7
     networks:
       koala:
         aliases:
@@ -30,6 +31,7 @@ services:
       - "searchIndexData7:/usr/share/elasticsearch/data"
   kibana:
     image: "docker.elastic.co/kibana/kibana:7.17.3"
+    container_name: koala-kibana7
     networks:
       koala:
         aliases:
