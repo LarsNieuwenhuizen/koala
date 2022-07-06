@@ -11,6 +11,8 @@ volumes:
     driver: local
   koala-postgres-11:
     driver: local
+  koala-redis-7:
+    driver: local
 
 services:
 
@@ -94,3 +96,15 @@ services:
       - "koala-postgres-11:/var/lib/postgresql/data"
     ports:
       - "${KOALA_POSTGRES11_PORT}:${KOALA_POSTGRES11_PORT}"
+
+  redis:
+    image: "redis:7-alpine"
+    container_name: koala-redis7
+    networks:
+      koala:
+        aliases:
+          - redis7.services.docker
+    volumes:
+      - "koala-redis-7:/data"
+    expose:
+      - "${KOALA_REDIS7_PORT}"
