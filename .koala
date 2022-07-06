@@ -19,5 +19,5 @@ export KOALA_ELASTICSEARCH7_PORT=9202
 export KOALA_POSTGRES11_HOST=postgres11.services.docker
 export KOALA_POSTGRES11_PORT=5434
 
-export KOALA_REDIS7_HOST=redis7
+export KOALA_REDIS7_HOST=redis7.services.docker
 export KOALA_REDIS7_PORT=6379
