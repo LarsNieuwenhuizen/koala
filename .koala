@@ -13,6 +13,9 @@ export KOALA_PHP_UPSTREAM=php:9000
 export KOALA_MARIADB103_HOST=mariadb103.services.docker
 export KOALA_MARIADB103_PORT=3308
 
+export KOALA_MARIADB107_HOST=mariadb107.services.docker
+export KOALA_MARIADB107_PORT=3308
+
 export KOALA_ELASTICSEARCH7_HOST=elasticsearch7.services.docker
 export KOALA_ELASTICSEARCH7_PORT=9202
 

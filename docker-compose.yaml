@@ -7,7 +7,7 @@ networks:
     external: true
 
 volumes:
-  koala-mariadb-103:
+  koala-mariadb-107:
     driver: local
   koala-postgres-11:
     driver: local
@@ -67,21 +67,20 @@ services:
       - "traefik.http.services.koala-mail.loadbalancer.server.port=1080"
     ports:
       - "1025:1025"
-
-  mariadb103:
-    image: "mariadb:10.3"
-    container_name: koala-mariadb103
+  mariadb107:
+    image: "mariadb:10.7"
+    container_name: koala-mariadb107
     environment:
       MYSQL_ROOT_PASSWORD: password
     networks:
       koala:
         aliases:
-          - mariadb103.services.docker
+          - mariadb107.services.docker
     volumes:
-      - "koala-mariadb-103:/var/lib/mysql"
-      - "./config/mariadb103/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf"
+      - "koala-mariadb-107:/var/lib/mysql"
+      - "./config/mariadb107/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf"
     ports:
-      - "${KOALA_MARIADB103_PORT}:${KOALA_MARIADB103_PORT}"
+      - "${KOALA_MARIADB107_PORT}:${KOALA_MARIADB107_PORT}"
   mysql8:
     image: mysql/mysql-server:latest
     container_name: koala-mysql8

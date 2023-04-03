@@ -1,0 +1,11 @@
+[client]
+default-character-set  = utf8
+
+[mysqld]
+character-set-server   = utf8
+collation-server       = utf8_unicode_ci
+character_set_server   = utf8
+collation_server       = utf8_unicode_ci
+
+bind-address           = 0.0.0.0
+port                   = 3308
