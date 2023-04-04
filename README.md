@@ -15,7 +15,7 @@ This setup uses Traefik as a reverse proxy to serve as an entrypoint for your ap
 ## How to install
 Run
 ```bash
-curl https://raw.githubusercontent.com/LarsNieuwenhuizen/koala/1.8.0/bin/installer.sh | bash
+curl https://raw.githubusercontent.com/LarsNieuwenhuizen/koala/1.8.1/bin/installer.sh | bash
 ```
 
 Koala is now installed and placed the koala console script in your local bin $PATH.
@@ -72,6 +72,7 @@ Available commands:
 If you start, it will by default start:
 - Traefik
 - Mariadb
+- MySQL 8
 - Postgres
 - Mailcatcher
 
