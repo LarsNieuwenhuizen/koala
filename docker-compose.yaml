@@ -69,7 +69,6 @@ services:
       - "1025:1025"
   mariadb107:
     image: "mariadb:10.7"
-    container_name: koala-mariadb107
     environment:
       MYSQL_ROOT_PASSWORD: password
     networks:
@@ -83,7 +82,6 @@ services:
       - "${KOALA_MARIADB107_PORT}:${KOALA_MARIADB107_PORT}"
   mysql8:
     image: mysql/mysql-server:latest
-    container_name: koala-mysql8
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_ROOT_HOST: '%'
