@@ -69,6 +69,7 @@ services:
       - "1025:1025"
   mariadb107:
     image: "mariadb:10.7"
+    container_name: koala-mariadb107
     environment:
       MYSQL_ROOT_PASSWORD: password
     networks:
@@ -77,11 +78,12 @@ services:
           - mariadb107.services.docker
     volumes:
       - "koala-mariadb-107:/var/lib/mysql"
-      - "./config/mariadb107/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf"
+      - "${HOME}/.koala/config/mariadb107/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf"
     ports:
       - "${KOALA_MARIADB107_PORT}:${KOALA_MARIADB107_PORT}"
   mysql8:
     image: mysql/mysql-server:latest
+    container_name: koala-mysql8
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_ROOT_HOST: '%'
@@ -91,7 +93,7 @@ services:
           - mysql8.services.docker
     volumes:
       - "koala-mysql-8:/var/lib/mysql"
-      - "./config/mysql8/my.cnf:/etc/my.cnf"
+      - "${HOME}/.koala/config/mysql8/my.cnf:/etc/my.cnf"
     healthcheck:
       test: "/healthcheck.sh"
     ports:
