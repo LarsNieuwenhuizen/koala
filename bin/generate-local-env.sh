@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
 pwd=$1
+
+if [ ! -f $pwd/.env.koala ]; then
+    touch $pwd/.env.koala
+fi
+
 cp $pwd/.env.dist $pwd/.env.koala
 
 vars=$(printenv)
