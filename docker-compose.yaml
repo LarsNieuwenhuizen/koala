@@ -78,7 +78,7 @@ services:
           - mariadb107.services.docker
     volumes:
       - "koala-mariadb-107:/var/lib/mysql"
-      - "${HOME}/.koala-1.8.5/config/mariadb107/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf"
+      - "${HOME}/.koala-1.8.6/config/mariadb107/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf"
     ports:
       - "${KOALA_MARIADB107_PORT}:${KOALA_MARIADB107_PORT}"
   mysql8:
@@ -93,7 +93,7 @@ services:
           - mysql8.services.docker
     volumes:
       - "koala-mysql-8:/var/lib/mysql"
-      - "${HOME}/.koala-1.8.5/config/mysql8/my.cnf:/etc/my.cnf"
+      - "${HOME}/.koala-1.8.6/config/mysql8/my.cnf:/etc/my.cnf"
     healthcheck:
       test: "/healthcheck.sh"
     ports:
